@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw_data
+    database: prd-igor
+    schema: raw_logistics
+    tables:
+      - name: vendas_bruto

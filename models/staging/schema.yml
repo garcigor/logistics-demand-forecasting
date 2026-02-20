@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: stg_vendas
+    columns:
+      - name: id_venda
+        tests:
+          - unique
+          - not_null
+      - name: sku
+        tests:
+          - not_null

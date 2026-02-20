@@ -1,0 +1,48 @@
+name: Executar dbt no BigQuery
+
+on:
+  push:
+    branches:
+      - main # Roda automaticamente quando você envia código para a main
+  workflow_dispatch: # Cria um botão no GitHub para você rodar manualmente quando quiser
+
+# ⚠️ OBRIGATÓRIO PARA O WIF (SEM CHAVES JSON) FUNCIONAR!
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  run-dbt:
+    name: Run dbt models
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: 🔑 Autenticar no Google Cloud (WIF)
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          # Puxa aquele endereço gigante que você salvou no GitHub Secrets
+          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          # A conta de serviço que criamos para o robô
+          service_account: 'dbt-github-runner@prd-igor.iam.gserviceaccount.com'
+
+      - name: 🐍 Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Versão estável recomendada para o dbt
+
+      - name: 📦 Instalar dbt-bigquery
+        run: |
+          pip install dbt-bigquery
+          dbt --version
+
+      - name: ⚙️ Instalar dependências do dbt
+        run: dbt deps
+        # Ajuste o caminho do --profiles-dir se o seu profiles.yml estiver em outra pasta
+        
+      - name: 🚀 Executar Modelos (Run & Test)
+        run: dbt build --profiles-dir . 
+        # 'dbt build' é o comando moderno que roda os modelos e testa tudo de uma vez
