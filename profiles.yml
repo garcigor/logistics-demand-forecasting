@@ -5,6 +5,7 @@ dbt_logistica:
       type: bigquery
       method: oauth
       project: prd-igor
-      dataset: SEU_DATASET_AQUI
+      dataset: silver_logistics
       threads: 4
-      location: US
+      location: us-central1
+
