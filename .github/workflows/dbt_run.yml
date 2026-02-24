@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main # Roda automaticamente quando você envia código para a main
-  workflow_dispatch: # Cria um botão no GitHub para você rodar manualmente quando quiser
+  workflow_dispatch: '0 6 * * *'# Cria um botão no GitHub para você rodar manualmente quando quiser
 
 # ⚠️ OBRIGATÓRIO PARA O WIF (SEM CHAVES JSON) FUNCIONAR!
 permissions:
