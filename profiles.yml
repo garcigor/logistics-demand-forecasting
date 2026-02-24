@@ -1,0 +1,10 @@
+dbt_logistica:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: prd-igor
+      dataset: SEU_DATASET_AQUI
+      threads: 4
+      location: US
